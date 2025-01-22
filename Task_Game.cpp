@@ -6,6 +6,7 @@
 #include  "Task_GameBG.h"
 #include  "Task_Player.h"
 #include  "Task_Ending.h"
+#include  "Task_Enemy.h"
 
 namespace  Game
 {
@@ -38,6 +39,7 @@ namespace  Game
 		auto  bg = GameBG::Object::Create(true);
 		//ƒvƒŒƒCƒ„
 		auto  pl = Player::Object::Create(true);
+		auto en = Enemy::Object::Create(true);
 
 		return  true;
 	}

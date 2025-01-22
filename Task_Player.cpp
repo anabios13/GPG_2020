@@ -34,8 +34,8 @@ namespace  Player
 		//★データ初期化
 		this->controller = ge->in1;
 		this->render2D_Priority[1] = 0.5f;
-		this->pos.x = 480 / 2;
-		this->pos.y = 270 * 2 / 3;
+		this->pos.x = 0;
+		this->pos.y = 0;
 
 		//★タスクの生成
 
