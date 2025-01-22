@@ -16,12 +16,12 @@ namespace Enemy {
     }
     Resource::~Resource() { this->Finalize(); }
 
-    shared_ptr<Resource> Resource::Create() {
+    Resource::SP  Resource::Create() {
         if (auto sp = instance.lock()) {
             return sp;
         }
         else {
-            sp = make_shared<Resource>();
+            sp = Resource::SP(new  Resource());
             if (sp) {
                 sp->Initialize();
                 instance = sp;
@@ -37,9 +37,9 @@ namespace Enemy {
             if (flagGameEnginePushBack_) {
                 ge->PushBack(ob);  // Добавляем в игровой процесс
             }
-            //if (!ob->B_Initialize()) {
-            //    ob->Kill();  // Уничтожаем, если инициализация не удалась
-            //}
+            if (!ob->Initialize()) {
+                ob->Kill();  // Уничтожаем, если инициализация не удалась
+            }
             return ob;
         }
         return nullptr;
@@ -51,7 +51,7 @@ namespace Enemy {
         this->res = Resource::Create();
         this->pos.x = 150;  // Враг появляется с правой стороны экрана
         this->pos.y = 150;  // Случайная высота
-        this->speed = 0.0f;
+        this->speed = 1.0f;
         this->render2D_Priority[1] = 0.5f;
         return true;
     }
@@ -74,7 +74,7 @@ namespace Enemy {
         //    Player::Object::Create(true)->Kill();
         //}
 
-        if (this->pos.x < 0) {
+        if (this->pos.x < -100) {
             this->Kill();  // Уничтожаем врага, если он вышел за пределы экрана
         }
     }
@@ -83,7 +83,7 @@ namespace Enemy {
     void Object::Render2D_AF() {
         ML::Box2D draw(32, 32, 32, 32);  // Размеры врага
         draw.Offset(this->pos);
-        ML::Box2D src(0, 0, 32, 32);  // Источник изображения
+        ML::Box2D src(0, 0, 100, 100);  // Источник изображения
         this->res->img->Draw(draw, src);
     }
 }
