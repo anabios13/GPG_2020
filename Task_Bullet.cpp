@@ -1,13 +1,13 @@
-#include "Task_Enemy.h"
+#include "Task_Bullet.h"
 
 #include  "MyPG.h"
 #include "myLib.h"
-namespace Enemy {
+namespace Bullet {
     Resource::WP  Resource::instance;
     //// Инициализация ресурса (картинка врага)
     bool Resource::Initialize() {
-        this->img = DG::Image::Create("./data/Image/enemy.png");
-        
+        this->img = DG::Image::Create("./data/Image/shot.png");
+
         return true;
     }
 
@@ -52,9 +52,9 @@ namespace Enemy {
 
         std::srand(std::time(nullptr));
         this->res = Resource::Create();
-        this->pos.x = 150;  // Враг появляется с правой стороны экрана
-        this->pos.y = (std::rand() % (270 - 32 + 1));  // Случайная высота
-        this->speed = 0.0f;//1.0f
+      //  this->pos.x = 150;  // Враг появляется с правой стороны экрана
+       // this->pos.y = (std::rand() % (270 - 32 + 1));  // Случайная высота
+        this->speed = 1.0f;//1.0f
         this->render2D_Priority[1] = 0.5f;
         this->gamestate = GameState::Normal;
         return true;
@@ -79,16 +79,16 @@ namespace Enemy {
         //    Player::Object::Create(true)->Kill();
         //}
 
-        if (this->pos.x >570) {
+        if (this->pos.x > 570) {
             this->Kill();  // Уничтожаем врага, если он вышел за пределы экранаa
         }
     }
 
     // Отрисовка врага
     void Object::Render2D_AF() {
-        ML::Box2D draw(32, 32, 32, 32);  // Размеры врага
+        ML::Box2D draw(16, 16, 16, 16);  // Размеры врага
         draw.Offset(this->pos);
-        ML::Box2D src(0, 0, 32, 32);
+        ML::Box2D src(0, 0, 8, 12);
         this->res->hitBase = draw;
         // Источник изображения
         this->res->img->Draw(draw, src);

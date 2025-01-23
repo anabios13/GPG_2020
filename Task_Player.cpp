@@ -36,7 +36,7 @@ namespace  Player
 		this->render2D_Priority[1] = 0.5f;
 		this->pos.x = 0;
 		this->pos.y = 0;
-
+		this->gamestate = GameState::Normal;
 		//šƒ^ƒXƒN‚Ì¶¬
 
 		return  true;
@@ -65,11 +65,12 @@ namespace  Player
 			if (inp.LStick.BU.on) { this->pos.y -= 3; }
 			if (inp.LStick.BD.on) { this->pos.y += 3; }
 
-			if (inp.B1.down) {
-				auto  pl = Player::Object::Create(true);
-				pl->pos = this->pos;
-				pl->pos.x += (rand() % 100) - 50;
-				pl->pos.y += (rand() % 100) - 50;
+			if (inp.B1.down) {//Z keyboard
+				//auto  pl = Player::Object::Create(true);
+				shot = Bullet::Object::Create(true);
+				shot->pos.x = this->pos.x+36;
+				shot->pos.y = this->pos.y +28;
+
 			}
 		}
 
@@ -82,6 +83,7 @@ namespace  Player
 		ML::Box2D  draw(32,32, 32, 32);
 		draw.Offset(this->pos);
 		ML::Box2D  src(0, 0, 32, 32); 
+		this->res->hitBase = draw;
 		this->res->img->Draw(draw, src);
 	}
 

@@ -2,7 +2,11 @@
 #include "Task_Title.h"
 namespace MyPG
 {
-
+	enum class State {
+		Normal,
+		Hit,
+		Non
+	};
 
 	MyGameEngine::MyGameEngine()
 		:GameEngine(

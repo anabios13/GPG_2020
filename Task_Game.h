@@ -4,7 +4,10 @@
 //ゲーム本編
 //-------------------------------------------------------------------
 #include "GameEngine_Ver3_83.h"
-
+#include  "Task_GameBG.h"
+#include  "Task_Player.h"
+#include  "Task_Ending.h"
+#include  "Task_Enemy.h"
 namespace  Game
 {
 	//タスクに割り当てるグループ名と固有名
@@ -44,6 +47,9 @@ namespace  Game
 		void  UpDate()			override;	//「実行」１フレーム毎に行う処理
 		void  Render2D_AF()		override;	//「2D描画」１フレーム毎に行う処理
 		bool  Finalize();	//「終了」タスク消滅時に１回だけ行う処理
+		Player::Object::SP PO;
+		Enemy::Object::SP EO;
+		GameBG::Object::SP BG;
 		//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 	public:
 		//追加したい変数・メソッドはここに追加する

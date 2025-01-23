@@ -137,6 +137,7 @@
     <ClCompile Include="DG2014\DG2014_VertexBuffer.cpp" />
     <ClCompile Include="DG2014\DG2014_VertexContainer.cpp" />
     <ClCompile Include="Dm2008_Ver1_4.cpp" />
+    <ClCompile Include="Task_Bullet.cpp" />
     <ClCompile Include="Task_Enemy.cpp" />
     <ClCompile Include="GameEngine_Ver3_83.cpp" />
     <ClCompile Include="myLib.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="DG2014\DG2014_VertexBuffer.h" />
     <ClInclude Include="DG2014\DG2014_VertexContainer.h" />
     <ClInclude Include="Dm2008_Ver1_4.h" />
+    <ClInclude Include="Task_Bullet.h" />
     <ClInclude Include="Task_Enemy.h" />
     <ClInclude Include="GameEngine_Ver3_83.h" />
     <ClInclude Include="myLib.h" />

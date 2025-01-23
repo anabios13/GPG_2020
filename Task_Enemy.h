@@ -7,10 +7,12 @@
 namespace Enemy {
     const string defGroupName("Enemy");
     const string defName("NoName");
+	enum class GameState { Normal, Hit, Non };
 
 	class  Resource : public BResource
 	{
 	public:
+
 		bool  Initialize()	override;
 		bool  Finalize()	override;
 		Resource() = default;
@@ -21,6 +23,7 @@ namespace Enemy {
 		static  Resource::SP  Create();
 		////‹¤—L‚·‚é•Ï”‚Í‚±‚±‚É’Ç‰Á‚·‚é
 		DG::Image::SP	img;
+		ML::Box2D hitBase;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
@@ -35,6 +38,8 @@ namespace Enemy {
 		////¶¬‘‹Œû ˆø”‚Ítrue‚Åƒ^ƒXƒNƒVƒXƒeƒ€‚Ö©“®“o˜^
 		static  Object::SP  Create(bool flagGameEnginePushBack_);
 		Resource::SP	res;
+
+		GameState gamestate;
 	private:
 		Object() = default;
 		//bool  B_Initialize(); // íå íóæåí
@@ -43,6 +48,7 @@ namespace Enemy {
 		void  UpDate()			override;	//uÀsv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 		void  Render2D_AF()		override;	//u2D•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 		bool  Finalize();	//uI—¹vƒ^ƒXƒNÁ–Å‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
+		
 		//•ÏX‰Â
 	};
 }

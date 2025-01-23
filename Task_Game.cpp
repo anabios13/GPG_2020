@@ -3,10 +3,7 @@
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Game.h"
-#include  "Task_GameBG.h"
-#include  "Task_Player.h"
-#include  "Task_Ending.h"
-#include  "Task_Enemy.h"
+#include <iostream>
 
 namespace  Game
 {
@@ -36,11 +33,13 @@ namespace  Game
 		
 		//★タスクの生成
 		//背景タスク
-		auto  bg = GameBG::Object::Create(true);
+		//auto  bg = GameBG::Object::Create(true);
 		//プレイヤ
-		auto  pl = Player::Object::Create(true);
-		auto en = Enemy::Object::Create(true);
-
+		//auto  pl = Player::Object::Create(true);
+		//auto en = Enemy::Object::Create(true);
+		BG= GameBG::Object::Create(true);
+		PO= Player::Object::Create(true);
+		EO = Enemy::Object::Create(true);
 		return  true;
 	}
 	//-------------------------------------------------------------------
@@ -63,10 +62,42 @@ namespace  Game
 	void  Object::UpDate()
 	{
 		auto inp = ge->in1->GetState( );
-		if (inp.ST.down) {
+		//generation enemy unit
+		/*for (int e = 0; e < 30; ++e) {
+			if (enemys[e].state == State::Normal) {
+				if (enemys[e].moveCnt < 100) { enemys[e].x += 1; }
+				else { enemys[e].x -= 1; }
+				enemys[e].moveCnt++;
+				if (enemys[e].moveCnt >= 200) { enemys[e].moveCnt = 0; }
+			}
+			if (player.state == State::Normal) {
+				ML::Box2D me = player.hitBase.OffsetCopy(player.x, player.y);
+				if (enemys[e].state == State::Normal) {
+					ML::Box2D you = enemys[e].hitBase.OffsetCopy(enemys[e].x, enemys[e].y);
+					if (you.Hit(me) == true) {
+						player.state = State::Non;
+						enemys[e].state = State::Non;
+					}
+				}
+			}
+		}*/
+		ML::Box2D me = PO->res->hitBase.OffsetCopy(PO->pos.x, PO->pos.y);
+		
+		if (EO->gamestate == Enemy::GameState::Normal) {
+			ML::Box2D you = EO->res->hitBase.OffsetCopy(EO->pos.x, EO->pos.y);
+			if (you.Hit(me)) {
+				PO->gamestate = Player::GameState::Non;
+				EO->gamestate = Enemy::GameState::Non;
+				PO->Kill();
+				EO->Kill();
+				this->Kill();
+			}
+		}		
+		if (inp.ST.down) {//s key
 			//自身に消滅要請
 			this->Kill();
 		}
+		
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
