@@ -39,7 +39,21 @@ namespace  Game
 		//auto en = Enemy::Object::Create(true);
 		BG= GameBG::Object::Create(true);
 		PO= Player::Object::Create(true);
-		EO = Enemy::Object::Create(true);
+		// —оздаЄм много врагов (пример: 5 штук)
+		for (int i = 0; i < 4; ++i)
+		{
+			auto en = Enemy::Object::Create(true);
+			if (en) {
+				// ѕример установки позиции
+				en->pos.x = 200.0f ;
+				en->pos.y = i * 42.0f;
+				enemies.push_back(en);
+
+			}
+	
+		}
+
+		return true;
 		return  true;
 	}
 	//-------------------------------------------------------------------
@@ -61,44 +75,57 @@ namespace  Game
 	//БuНXРVБvВPГtГМБ[ГАЦИВ…НsВ§ПИЧЭ
 	void  Object::UpDate()
 	{
+		enemies[0] = nullptr;
 		auto inp = ge->in1->GetState( );
-		//generation enemy unit
-		/*for (int e = 0; e < 30; ++e) {
-			if (enemys[e].state == State::Normal) {
-				if (enemys[e].moveCnt < 100) { enemys[e].x += 1; }
-				else { enemys[e].x -= 1; }
-				enemys[e].moveCnt++;
-				if (enemys[e].moveCnt >= 200) { enemys[e].moveCnt = 0; }
-			}
-			if (player.state == State::Normal) {
-				ML::Box2D me = player.hitBase.OffsetCopy(player.x, player.y);
-				if (enemys[e].state == State::Normal) {
-					ML::Box2D you = enemys[e].hitBase.OffsetCopy(enemys[e].x, enemys[e].y);
-					if (you.Hit(me) == true) {
-						player.state = State::Non;
-						enemys[e].state = State::Non;
-					}
-				}
-			}
-		}*/
-		ML::Box2D me = PO->res->hitBase.OffsetCopy(PO->pos.x, PO->pos.y);
+	//	ML::Box2D me = PO->res->hitBase.OffsetCopy(PO->pos.x, PO->pos.y);
 		
-		if (EO->gamestate == Enemy::GameState::Normal) {
-			ML::Box2D you = EO->res->hitBase.OffsetCopy(EO->pos.x, EO->pos.y);
-			if (you.Hit(me)) {
-				PO->gamestate = Player::GameState::Non;
-				EO->gamestate = Enemy::GameState::Non;
-				PO->Kill();
-				EO->Kill();
-				this->Kill();
-			}
-		}		
+		CheckCollisionPlayerEnemies();
+
 		if (inp.ST.down) {//s key
 			//О©РgВ…ПЅЦ≈ЧvРњ
 			this->Kill();
 		}
 		
 	}
+
+	void Object::CheckCollisionPlayerEnemies()
+	{
+		// ≈сли игрок уже мЄртв, не провер€ем
+		if (!PO || PO->gamestate!=Player::GameState::Normal) return;
+
+		// ’итбокс игрока
+		ML::Box2D playerBox = PO->res->hitBase.OffsetCopy(PO->pos.x, PO->pos.y);
+		
+		// ѕеребираем ¬—≈’ врагов
+		for (int i=0; i<enemies.size();i++)
+		{
+
+			if (enemies[i]->gamestate != Enemy::GameState::Normal) continue;
+
+			// ’итбокс врага
+			ML::Box2D enemyBox = enemies[i]->res->hitBase.OffsetCopy(enemies[i]->pos.x, enemies[i]->pos.y);
+			playerBox = PO->res->hitBase.OffsetCopy(PO->pos.x, PO->pos.y);
+			std::cout << enemies[i]->pos.x << " " << enemies[i]->pos.y;
+
+			if (enemyBox.Hit(playerBox))
+			{
+				// ѕомечаем обоих как погибших
+				PO->gamestate = Player::GameState::Non;
+				enemies[i]->gamestate = Enemy::GameState::Non;
+
+				// ¬ызываем Kill(), если это нужно
+				PO->Kill();
+				enemies[i]->Kill();
+
+				// », к примеру, завершаем сам Task_Game
+				this->Kill();
+
+				// ѕрерываем цикл, чтобы не провер€ть дальше
+				break;
+			}
+		}
+	}
+
 	//-------------------------------------------------------------------
 	//БuВQВcХ`ЙжБvВPГtГМБ[ГАЦИВ…НsВ§ПИЧЭ
 	void  Object::Render2D_AF()

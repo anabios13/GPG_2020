@@ -48,10 +48,11 @@ namespace  Game
 		void  Render2D_AF()		override;	//u2D•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 		bool  Finalize();	//uI—¹vƒ^ƒXƒNÁ–Å‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
 		Player::Object::SP PO;
-		Enemy::Object::SP EO;
 		GameBG::Object::SP BG;
-		//•ÏX‰Â
-	public:
-		//’Ç‰Á‚µ‚½‚¢•Ï”Eƒƒ\ƒbƒh‚Í‚±‚±‚É’Ç‰Á‚·‚é
+		// ÌÍÎÆÅÑÒÂÎ âğàãîâ
+		std::vector<Enemy::Object::SP> enemies;
+	private:
+		// Ïğîâåğêà êîëëèçèé
+		void CheckCollisionPlayerEnemies();
 	};
 }

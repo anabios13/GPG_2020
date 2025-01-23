@@ -67,9 +67,8 @@ namespace  Player
 
 			if (inp.B1.down) {//Z keyboard
 				//auto  pl = Player::Object::Create(true);
-				shot = Bullet::Object::Create(true);
-				shot->pos.x = this->pos.x+36;
-				shot->pos.y = this->pos.y +28;
+				 Bullet::Object::Create(true);
+
 
 			}
 		}

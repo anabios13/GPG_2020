@@ -54,6 +54,7 @@ namespace  Player
 		//追加したい変数・メソッドはここに追加する
 		XI::GamePad::SP  controller;
 		ML::Point		pos;
+		//Bullet::Object::SP     shot;
 		
 		GameState gamestate;
 	};
