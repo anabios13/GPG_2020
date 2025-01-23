@@ -1,7 +1,7 @@
 #pragma warning(disable:4996)
 #pragma once
 #include "GameEngine_Ver3_83.h"
-#include "Task_Player.h"  // Для проверки столкновений с игроком
+//#include "Task_Player.h"  // Для проверки столкновений с игроком
 #include  "MyPG.h"
 
 namespace Bullet {

@@ -62,6 +62,9 @@ namespace  Game
 	void  Object::UpDate()
 	{
 		auto inp = ge->in1->GetState( );
+		//ge->GetTask<Bullet::Object::SP>();
+		
+		//ge->
 		//generation enemy unit
 		/*for (int e = 0; e < 30; ++e) {
 			if (enemys[e].state == State::Normal) {
@@ -92,7 +95,32 @@ namespace  Game
 				EO->Kill();
 				this->Kill();
 			}
-		}		
+		}	
+		for (size_t i = 0; i < PO->shots.size(); i++)
+		{
+			ML::Box2D shot = PO->shots[i]->res->hitBase.OffsetCopy(PO->shots[i]->pos.x, PO->shots[i]->pos.y);
+			if (EO->gamestate == Enemy::GameState::Normal) {
+				ML::Box2D you = EO->res->hitBase.OffsetCopy(EO->pos.x, EO->pos.y);
+				if (you.Hit(shot)) {
+					EO->gamestate = Enemy::GameState::Non;
+					PO->shots[i]->gamestate = Bullet::GameState::Non;
+					PO->shots[i]->Kill();
+					EO->Kill();
+
+				}
+			}
+		}
+		/*ML::Box2D bull = PO->shot->res->hitBase.OffsetCopy(PO->pos.x, PO->pos.y);
+		if (EO->gamestate == Enemy::GameState::Normal) {
+			ML::Box2D you = EO->res->hitBase.OffsetCopy(EO->pos.x, EO->pos.y);
+			if (you.Hit(bull)) {
+				//PO->gamestate = Player::GameState::Non;
+				EO->gamestate = Enemy::GameState::Non;
+				//PO->Kill();
+				EO->Kill();
+				this->Kill();
+			}
+		}*/
 		if (inp.ST.down) {//s key
 			//Ž©g‚ÉÁ–Å—v¿
 			this->Kill();

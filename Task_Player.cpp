@@ -51,7 +51,7 @@ namespace  Player
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//šˆø‚«Œp‚¬ƒ^ƒXƒN‚Ì¶¬
 		}
-
+		
 		return  true;
 	}
 	//-------------------------------------------------------------------
@@ -66,11 +66,10 @@ namespace  Player
 			if (inp.LStick.BD.on) { this->pos.y += 3; }
 
 			if (inp.B1.down) {//Z keyboard
-				//auto  pl = Player::Object::Create(true);
-				shot = Bullet::Object::Create(true);
-				shot->pos.x = this->pos.x+36;
-				shot->pos.y = this->pos.y +28;
-
+				auto  pl = Bullet::Object::Create(true);
+				pl->pos.x = this->pos.x+36;
+				pl->pos.y = this->pos.y +28;
+				shots.push_back(pl);
 			}
 		}
 

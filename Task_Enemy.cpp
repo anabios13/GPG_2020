@@ -88,7 +88,7 @@ namespace Enemy {
     void Object::Render2D_AF() {
         ML::Box2D draw(32, 32, 32, 32);  // Размеры врага
         draw.Offset(this->pos);
-        ML::Box2D src(0, 0, 32, 32);
+        ML::Box2D src(0, 0, 32, 32);//0,0,32,32
         this->res->hitBase = draw;
         // Источник изображения
         this->res->img->Draw(draw, src);

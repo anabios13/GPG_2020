@@ -5,6 +5,7 @@
 //-------------------------------------------------------------------
 #include "GameEngine_Ver3_83.h"
 #include  "Task_Bullet.h"
+#include <vector>
 namespace  Player
 {
 
@@ -54,7 +55,8 @@ namespace  Player
 		//追加したい変数・メソッドはここに追加する
 		XI::GamePad::SP  controller;
 		ML::Point		pos;
-		
+		std::vector<Bullet::Object::SP> shots;
+		// shot;
 		GameState gamestate;
 	};
 }
