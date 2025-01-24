@@ -48,7 +48,7 @@ namespace  Game
 		void  Render2D_AF()		override;	//「2D描画」１フレーム毎に行う処理
 		bool  Finalize();	//「終了」タスク消滅時に１回だけ行う処理
 		Player::Object::SP PO;
-		Enemy::Object::SP EO;
+		//Enemy::Object::SP EO;
 		GameBG::Object::SP BG;
 		//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 	public:

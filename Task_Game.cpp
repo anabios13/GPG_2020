@@ -4,7 +4,7 @@
 #include  "MyPG.h"
 #include  "Task_Game.h"
 #include <iostream>
-
+#include <functional>
 namespace  Game
 {
 	Resource::WP  Resource::instance;
@@ -39,7 +39,7 @@ namespace  Game
 		//auto en = Enemy::Object::Create(true);
 		BG= GameBG::Object::Create(true);
 		PO= Player::Object::Create(true);
-		EO = Enemy::Object::Create(true);
+		//EO = Enemy::Object::Create(true);
 		return  true;
 	}
 	//-------------------------------------------------------------------
@@ -92,9 +92,10 @@ namespace  Game
 		//ge->GetTask<Bullet::Object::SP>();
 		
 		//ge->
+		//[enemys]e
 		//generation enemy unit
 		/*for (int e = 0; e < 30; ++e) {
-			if (enemys[e].state == State::Normal) {
+			if (.state == State::Normal) {
 				if (enemys[e].moveCnt < 100) { enemys[e].x += 1; }
 				else { enemys[e].x -= 1; }
 				enemys[e].moveCnt++;
@@ -111,19 +112,60 @@ namespace  Game
 				}
 			}
 		}*/
-		ML::Box2D me = PO->res->hitBase.OffsetCopy(PO->pos.x, PO->pos.y);
-		
-		if (EO->gamestate == Enemy::GameState::Normal) {
-			ML::Box2D you = EO->res->hitBase.OffsetCopy(EO->pos.x, EO->pos.y);
-			if (you.Hit(me)) {
-				PO->gamestate = Player::GameState::Non;
-				EO->gamestate = Enemy::GameState::Non;
-				PO->Kill();
-				EO->Kill();
-				this->Kill();
+		ML::Box2D me = PO->res->hitBase;
+		me.x = PO->pos.x;
+		me.y = PO->pos.y;
+
+		for (auto enemy : enemies)
+		{
+			if (enemy->gamestate == Enemy::GameState::Normal) {
+			//	ML::Box2D you = enemy->res->hitBase.OffsetCopy(enemy->pos.x, enemy->pos.y);
+				//ML::Box2D you = enemy->res->hitBase.OffsetCopy(enemy->pos);
+				//you.x = enemy->pos.x;
+				ML::Box2D you = enemy->res->hitBase;
+				you.x = enemy->pos.x;
+				you.y = enemy->pos.y;
+				//you.h = enemy->res->hitBase.h;
+
+				if (you.Hit(me)) {
+					PO->gamestate = Player::GameState::Non;
+					enemy->gamestate = Enemy::GameState::Non;
+					PO->Kill();
+					enemy->Kill();
+					this->Kill();
+				}
 			}
-		}	
-		for (size_t i = 0; i < PO->shots.size(); i++)
+		}
+		//MessageBox(nullptr, std::to_string(PO->pos.x).data(), nullptr, MB_OK);
+		//std::for_each(PO->shots.cbegin(),PO->shots.cend(),[](Bullet){})
+		for(auto& enemy : enemies)
+		{
+			ML::Box2D me = enemy->res->hitBase;
+			me.x = enemy->pos.x;
+			me.y = enemy->pos.y;
+			for (auto& bullet : PO->shots) {
+				ML::Box2D you = bullet->res->hitBase;
+				you.x= bullet->pos.x;
+				you.y = bullet->pos.y;
+				if (me.Hit(you)) {
+					bullet->gamestate = Bullet::GameState::Non;
+					enemy->gamestate = Enemy::GameState::Non;
+					bullet->Kill();
+					PO->shots.erase(std::find(PO->shots.begin(), PO->shots.end(), bullet));
+					enemy->Kill();
+					enemies.erase(std::find(enemies.begin(), enemies.end(), enemy));
+				//	enemy->Kill();
+				//	bullet->Kill();
+
+
+				}
+			}
+		}
+		/*for (size_t i = 0; i <; i++)
+		{
+
+		}*/
+		/*for (size_t i = 0; i < PO->shots.size(); i++)
 		{
 			ML::Box2D shot = PO->shots[i]->res->hitBase.OffsetCopy(PO->shots[i]->pos.x, PO->shots[i]->pos.y);
 			if (EO->gamestate == Enemy::GameState::Normal) {
@@ -136,7 +178,7 @@ namespace  Game
 
 				}
 			}
-		}
+		}*/
 		/*ML::Box2D bull = PO->shot->res->hitBase.OffsetCopy(PO->pos.x, PO->pos.y);
 		if (EO->gamestate == Enemy::GameState::Normal) {
 			ML::Box2D you = EO->res->hitBase.OffsetCopy(EO->pos.x, EO->pos.y);
@@ -148,8 +190,12 @@ namespace  Game
 				this->Kill();
 			}
 		}*/
-		if (inp.ST.down) {//s key
-			//Ћ©ђg‚ЙЏБ–Е—vђї
+		if (PO->gamestate == Player::GameState::Non) {
+			enemies.clear();
+			ge->KillAll_G("Enemy");
+		}
+		if (inp.ST.down) {
+			ge->KillAll_G("Enemy");
 			this->Kill();
 		}
 		
