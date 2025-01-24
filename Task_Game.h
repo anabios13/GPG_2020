@@ -54,5 +54,7 @@ namespace  Game
 	public:
 		//追加したい変数・メソッドはここに追加する
 		std::vector<Enemy::Object::SP> enemies;
+		std::vector<Enemy::Object::SP> enemiesToRemove;
+		std::vector<Bullet::Object::SP> bulletsToRemove;
 	};
 }

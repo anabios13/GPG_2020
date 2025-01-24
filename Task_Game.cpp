@@ -136,6 +136,9 @@ namespace  Game
 				}
 			}
 		}
+
+		std::vector<Enemy::Object::SP> enemiesToRemove;
+		std::vector<Bullet::Object::SP> bulletsToRemove;
 		//MessageBox(nullptr, std::to_string(PO->pos.x).data(), nullptr, MB_OK);
 		//std::for_each(PO->shots.cbegin(),PO->shots.cend(),[](Bullet){})
 		for(auto& enemy : enemies)
@@ -151,16 +154,37 @@ namespace  Game
 					bullet->gamestate = Bullet::GameState::Non;
 					enemy->gamestate = Enemy::GameState::Non;
 					bullet->Kill();
-					PO->shots.erase(std::find(PO->shots.begin(), PO->shots.end(), bullet));
+					//PO->shots.erase(std::find(PO->shots.begin(), PO->shots.end(), bullet));
 					enemy->Kill();
-					enemies.erase(std::find(enemies.begin(), enemies.end(), enemy));
-				//	enemy->Kill();
-				//	bullet->Kill();
-
+					//enemies.erase(std::find(enemies.begin(), enemies.end(), enemy)););
+					bulletsToRemove.push_back(bullet);
+					enemiesToRemove.push_back(enemy);
 
 				}
 			}
 		}
+
+
+		// Удаляем пули из основного списка
+		PO->shots.erase(
+			std::remove_if(PO->shots.begin(), PO->shots.end(),
+				[&bulletsToRemove](const Bullet::Object::SP& bullet) {
+					return std::find(bulletsToRemove.begin(), bulletsToRemove.end(), bullet) != bulletsToRemove.end();
+				}),
+			PO->shots.end()
+		);
+
+		// Удаляем врагов из основного списка
+		enemies.erase(
+			std::remove_if(enemies.begin(), enemies.end(),
+				[&enemiesToRemove](const Enemy::Object::SP& enemy) {
+					return std::find(enemiesToRemove.begin(), enemiesToRemove.end(), enemy) != enemiesToRemove.end();
+				}),
+			enemies.end()
+		);
+
+
+
 		/*for (size_t i = 0; i <; i++)
 		{
 
@@ -199,6 +223,18 @@ namespace  Game
 			this->Kill();
 		}
 		
+	}
+
+	void removeAndShift(std::vector<int>& vec, size_t index) {
+		// Проверяем, что индекс в пределах вектора
+		if (index < vec.size()) {
+			// Сдвигаем элементы на одну позицию влево, начиная с удаляемого индекса
+			for (size_t i = index; i < vec.size() - 1; ++i) {
+				vec[i] = vec[i + 1];
+			}
+			// Удаляем последний элемент (он стал лишним после сдвига)
+			vec.pop_back();
+		}
 	}
 	//-------------------------------------------------------------------
 	//Ѓu‚Q‚c•`‰жЃv‚PѓtѓЊЃ[ѓЂ–€‚ЙЌs‚¤Џ€—ќ
