@@ -52,8 +52,6 @@ namespace Bullet {
 
         std::srand(std::time(nullptr));
         this->res = Resource::Create();
-      //  this->pos.x = 150;  // Враг появляется с правой стороны экрана
-       // this->pos.y = (std::rand() % (270 - 32 + 1));  // Случайная высота
         this->speed = 1.0f;//1.0f
         this->render2D_Priority[1] = 0.5f;
         this->gamestate = GameState::Normal;
@@ -71,22 +69,14 @@ namespace Bullet {
     void Object::UpDate() {
         this->pos.x += this->speed;  // Двигается вправо
 
-        //// Проверка столкновения с игроком
-        //ML::Collsion::
-        //if (ML::Collision::CheckRect(this->pos, 32, 32, Player::Object::Create(true)->pos, 32, 32)) {
-        //    // Столкновение с игроком, уничтожаем оба объекта
-        //    this->Kill();
-        //    Player::Object::Create(true)->Kill();
-        //}
-
         if (this->pos.x > 570) {
-            this->Kill();  // Уничтожаем врага, если он вышел за пределы экранаa
+            this->Kill();
         }
     }
 
     // Отрисовка врага
     void Object::Render2D_AF() {
-        ML::Box2D draw(16, 16, 16, 16);  // Размеры врага
+        ML::Box2D draw(16, 16, 16, 16);  
         draw.Offset(this->pos);
         ML::Box2D src(0, 0, 8, 12);
         this->res->hitBase = draw;

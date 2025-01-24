@@ -52,9 +52,9 @@ namespace Enemy {
 
         std::srand(std::time(nullptr));
         this->res = Resource::Create();
-        this->pos.x = 150;  // Враг появляется с правой стороны экрана
+        this->pos.x = 500;  // Враг появляется с правой стороны экрана
         this->pos.y = (std::rand() % (270 - 32 + 1));  // Случайная высота
-        this->speed = 0.0f;//1.0f
+        this->speed = 1.0f;//1.0f
         this->render2D_Priority[1] = 0.5f;
         this->gamestate = GameState::Normal;
         return true;
@@ -69,15 +69,7 @@ namespace Enemy {
 
     //// Обновление позиции врага
     void Object::UpDate() {
-        this->pos.x += this->speed;  // Двигается вправо
-
-        //// Проверка столкновения с игроком
-        //ML::Collsion::
-        //if (ML::Collision::CheckRect(this->pos, 32, 32, Player::Object::Create(true)->pos, 32, 32)) {
-        //    // Столкновение с игроком, уничтожаем оба объекта
-        //    this->Kill();
-        //    Player::Object::Create(true)->Kill();
-        //}
+        this->pos.x -= this->speed;  // Двигается вправо
 
         if (this->pos.x >570) {
             this->Kill();  // Уничтожаем врага, если он вышел за пределы экранаa

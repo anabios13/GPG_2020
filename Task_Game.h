@@ -51,8 +51,11 @@ namespace  Game
 		GameBG::Object::SP BG;
 		// МНОЖЕСТВО врагов
 		std::vector<Enemy::Object::SP> enemies;
+		std::vector<Bullet::Object::SP> bullets;
 	private:
 		// Проверка коллизий
 		void CheckCollisionPlayerEnemies();
+		void CheckCollisionBulletEnemies();
+		void DrawRec(const ML::Box2D& box, const  ML::Color color);
 	};
 }

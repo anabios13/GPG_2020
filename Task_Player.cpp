@@ -65,12 +65,14 @@ namespace  Player
 			if (inp.LStick.BU.on) { this->pos.y -= 3; }
 			if (inp.LStick.BD.on) { this->pos.y += 3; }
 
-			if (inp.B1.down) {//Z keyboard
-				//auto  pl = Player::Object::Create(true);
-				 Bullet::Object::Create(true);
+			//if (inp.B1.down) {//Z keyboard
+			//	//auto  pl = Player::Object::Create(true);
+			//	auto bl = Bullet::Object::Create(true);
+			//	bl->pos.x = this->pos.x;
+			//	bl->pos.y = this->pos.y;
 
 
-			}
+			//}
 		}
 
 	}
