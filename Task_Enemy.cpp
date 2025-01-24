@@ -54,7 +54,7 @@ namespace Enemy {
         this->res = Resource::Create();
         this->pos.x = 150;  // Враг появляется с правой стороны экрана
         this->pos.y = (std::rand() % (270 - 32 + 1));  // Случайная высота
-        this->speed = 0.0f;//1.0f
+        this->speed = 1.0f;//1.0f
         this->render2D_Priority[1] = 0.5f;
         this->gamestate = GameState::Normal;
         return true;
@@ -69,7 +69,7 @@ namespace Enemy {
 
     //// Обновление позиции врага
     void Object::UpDate() {
-        this->pos.x += this->speed;  // Двигается вправо
+        this->pos.x -= this->speed;  // Двигается вправо
 
         //// Проверка столкновения с игроком
         //ML::Collsion::

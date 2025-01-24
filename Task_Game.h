@@ -53,5 +53,6 @@ namespace  Game
 		//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 	public:
 		//追加したい変数・メソッドはここに追加する
+		std::vector<Enemy::Object::SP> enemies;
 	};
 }
