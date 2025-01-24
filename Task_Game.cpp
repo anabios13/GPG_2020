@@ -78,7 +78,7 @@ namespace  Game
 				if (en) {
 					// Óñòàíàâëèâàåì ïîçèöèþ âðàãà
 					en->pos.x = 540.0f; // X-êîîðäèíàòà ôèêñèðîâàíà
-					en->pos.y = std::rand() % (270 - 32); // Ñëó÷àéíàÿ ïîçèöèÿ ïî Y â ïðåäåëàõ èãðîâîãî ïîëÿ
+					en->pos.y =206; // Ñëó÷àéíàÿ ïîçèöèÿ ïî Y â ïðåäåëàõ èãðîâîãî ïîëÿ
 
 					// Óñòàíàâëèâàåì ðàçìåðû õèòáîêñà
 					en->res->hitBase.h = 32;
@@ -144,8 +144,9 @@ namespace  Game
 		for(auto& enemy : enemies)
 		{
 			ML::Box2D me = enemy->res->hitBase;
-			me.x = enemy->pos.x;
+			me.x = enemy->pos.x+20;
 			me.y = enemy->pos.y;
+			me.h += 10;
 			for (auto& bullet : PO->shots) {
 				ML::Box2D you = bullet->res->hitBase;
 				you.x= bullet->pos.x;
