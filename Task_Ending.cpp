@@ -4,6 +4,7 @@
 #include  "MyPG.h"
 #include  "Task_Ending.h"
 #include  "Task_Title.h"
+#include <iostream>
 
 namespace  Ending
 {
@@ -12,7 +13,12 @@ namespace  Ending
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/blue-preview.png");
+		this->img = DG::Image::Create("./data/image/Ending.bmp");
+		this->font = DG::Font::Create("PixelifySans", 16, 16, 400U, ANSI_CHARSET); // 32 - 銕褞 頡
+		if (!this->font) {
+			MessageBox(0, "Error: can't load font PixelifySans!", 0, MB_OK);
+			//std::cerr << "Error: can't load font PixelifySans!" << std::endl;
+		}
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -33,7 +39,10 @@ namespace  Ending
 
 		//★データ初期化
 		this->logoPosY = 0;
-
+	//	auto message = std::string("you are winning, your score :");
+	//	message.append(std::to_string(score));
+	//	message.append(" press s to resart game");
+	//	messageBox(0, message.data(), 0, MB_OK);
 		//★タスクの生成
 
 		return  true;

@@ -24,6 +24,7 @@ namespace  Ending
 		static  Resource::SP  Create();
 		//共有する変数はここに追加する
 		DG::Image::SP  img;
+		DG::Font::SP	font;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
@@ -47,6 +48,7 @@ namespace  Ending
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 	public:
 		//追加したい変数・メソッドはここに追加する
-		int			logoPosY;		//タイトル画像スクロール用カウンタ
+		int			logoPosY;
+		int score = 0;		//タイトル画像スクロール用カウンタ
 	};
 }

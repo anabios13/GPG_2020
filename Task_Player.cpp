@@ -58,6 +58,7 @@ namespace  Player
 	//「更新」１フレーム毎に行う処理
 	void  Object::UpDate()
 	{
+		int v = 0;
 		if (this->controller) {
 			auto  inp = this->controller->GetState();
 			//ge->screen2DHeight;
@@ -69,11 +70,12 @@ namespace  Player
 				this->pos.x = min(ge->screenWidth-70, this->pos.x + 3);
 			}
 			if (inp.LStick.BU.on) {
+				v= max(-30, this->pos.y - 3);
 				this->pos.y = max(-30, this->pos.y - 3);
 			}
 			if (inp.LStick.BD.on) {//粹韈
-
-				this->pos.y = min(ge->screenHeight-70 , this->pos.y + 3);
+				//auto a= min(ge->screenHeight - 70, this->pos.y + 3);
+				this->pos.y = min((int)(ge->screenHeight - 70), this->pos.y + 3);
 			}
 			if (inp.B1.down) {//Z keyboard
 				auto  pl = Bullet::Object::Create(true);
@@ -92,7 +94,7 @@ namespace  Player
 		ML::Box2D  draw(32,32, 32, 32);
 		draw.Offset(this->pos);
 		ML::Box2D  src(0, 0, 32, 32); 
-		this->res->hitBase = draw;
+		this->res->hitBase = src;
 		this->res->img->Draw(draw, src);
 	}
 

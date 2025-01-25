@@ -12,7 +12,7 @@ namespace  Title
 	//ƒŠƒ\[ƒX‚Ì‰Šú‰»
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/blue-preview.png");
+		this->img = DG::Image::Create("./data/image/Title.bmp");
 		return true;
 	}
 	//-------------------------------------------------------------------

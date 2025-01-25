@@ -60,6 +60,7 @@ namespace  Game
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//Ѓљ€ш‚«Њp‚¬ѓ^ѓXѓN‚Мђ¶ђ¬
 			auto next = Ending::Object::Create(true);
+			next->score = score;
 		}
 
 		return  true;
@@ -75,7 +76,9 @@ namespace  Game
 		std::uniform_int_distribution<> ecount(0, 3);
 		std::uniform_int_distribution<> dis(0, 40); // Случайные числа от 0 до 10 включительно
 		std::uniform_int_distribution<> dis1(0, 50);
-		
+		std::vector<Enemy::Object::SP> enemiesToRemove;
+		std::vector<Bullet::Object::SP> bulletsToRemove;
+		std::vector<Coin::Object::SP> coinsToRemove;
 		static int updateCounter = 0; // Ñ÷¸ò÷èê âûçîâîâ ìåòîäà Update()
 		//int val1=rand
 		updateCounter++; // Óâåëè÷èâàåì ñ÷¸ò÷èê
@@ -125,6 +128,8 @@ namespace  Game
 		ML::Box2D me = PO->res->hitBase;
 		me.x = PO->pos.x;
 		me.y = PO->pos.y;
+		me.h += 10;
+		me.w += 10;
 		for (auto enemy : enemies)
 		{
 			if (enemy->gamestate == Enemy::GameState::Normal) {
@@ -151,12 +156,11 @@ namespace  Game
 				if (you.Hit(me)) {
 					coin->gamestate = Coin::GameState::Non;
 					coin->Kill();
-					//PO->count++;
+					coinsToRemove.push_back(coin);
 				}
 			}
 		}
-		std::vector<Enemy::Object::SP> enemiesToRemove;
-		std::vector<Bullet::Object::SP> bulletsToRemove;
+
 		for(auto& enemy : enemies)
 		{
 			ML::Box2D me = enemy->res->hitBase;
@@ -204,7 +208,13 @@ namespace  Game
 				}),
 			enemies.end()
 		);
-
+		coins.erase(
+			std::remove_if(coins.begin(), coins.end(),
+				[&coinsToRemove](const Coin::Object::SP& coin) {
+					return std::find(coinsToRemove.begin(), coinsToRemove.end(), coin) != coinsToRemove.end();
+				}),
+			coins.end()
+		);
 
 		if (PO->gamestate == Player::GameState::Non) {
 			enemies.clear();
