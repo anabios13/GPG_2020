@@ -157,6 +157,7 @@ namespace  Game
 					coin->gamestate = Coin::GameState::Non;
 					coin->Kill();
 					coinsToRemove.push_back(coin);
+					score++;
 				}
 			}
 		}

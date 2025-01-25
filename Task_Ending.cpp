@@ -26,6 +26,7 @@ namespace  Ending
 	bool  Resource::Finalize()
 	{
 		this->img.reset();
+		this->font.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -85,9 +86,19 @@ namespace  Ending
 	{
 		ML::Box2D  draw(0, 0, 480, 270);
 		ML::Box2D  src(0, 0, 816, 480);
+		if (!res || !res->font) return;
+
+		// ѕример строки текста
+		std::string text("your score is ");
+		
+		text.append(std::to_string(score));
+
+		ML::Box2D textBox((int)(ge->screen2DWidth - 290), 10, 240, 16); // ѕозици€ текста (x, y, ширина, высота)
+		ML::Color color(255, 1, 1, 1); // Ѕелый цвет (RGBA)
 
 		draw.Offset(0, this->logoPosY);
 		this->res->img->Draw(draw, src);
+		this->res->font->Draw(textBox, text, color);
 	}
 
 	//БЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪБЪ

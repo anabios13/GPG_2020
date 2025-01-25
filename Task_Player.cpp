@@ -61,7 +61,6 @@ namespace  Player
 		int v = 0;
 		if (this->controller) {
 			auto  inp = this->controller->GetState();
-			//ge->screen2DHeight;
 		
 			if (inp.LStick.BL.on) { this->pos.x = max(-70, this->pos.x - 3);  }
 			else if (this->pos.x <= 0) { this->pos.x +=4 ; }
@@ -74,7 +73,6 @@ namespace  Player
 				this->pos.y = max(-30, this->pos.y - 3);
 			}
 			if (inp.LStick.BD.on) {//вниз
-				//auto a= min(ge->screenHeight - 70, this->pos.y + 3);
 				this->pos.y = min((int)(ge->screenHeight - 70), this->pos.y + 3);
 			}
 			if (inp.B1.down) {//Z keyboard
