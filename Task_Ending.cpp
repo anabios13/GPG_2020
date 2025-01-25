@@ -94,7 +94,7 @@ namespace  Ending
 		text.append(std::to_string(score));
 
 		ML::Box2D textBox((int)(ge->screen2DWidth - 290), 10, 240, 16); // Позиция текста (x, y, ширина, высота)
-		ML::Color color(255, 1, 1, 1); // Белый цвет (RGBA)
+		ML::Color color(1, 255, 0, 0); // Белый цвет (RGBA)
 
 		draw.Offset(0, this->logoPosY);
 		this->res->img->Draw(draw, src);
