@@ -161,8 +161,8 @@ namespace  Game
 		{
 			ML::Box2D me = enemy->res->hitBase;
 			me.x = enemy->pos.x+20;
-			me.y = enemy->pos.y;
-			me.h += 10;
+			me.y = enemy->pos.y+25;
+			me.h -= 10;
 			for (auto& bullet : PO->shots) {
 				ML::Box2D you = bullet->res->hitBase;
 				you.x= bullet->pos.x;
@@ -170,6 +170,9 @@ namespace  Game
 				if (me.Hit(you)&& enemy->gamestate== Enemy::GameState::Normal) {
 					bullet->gamestate = Bullet::GameState::Non;
 					enemy->gamestate = Enemy::GameState::Non;
+					ML::Color color(1, 1, 1, 1); // Белый цвет (RGBA)
+
+					this->res->font->Draw(you, "AAAAAAAAAAAAAAAAAAA", color);
 					bullet->Kill();
 					enemy->Kill();
 					if (bullet != previousBullet) {

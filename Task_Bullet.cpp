@@ -79,7 +79,8 @@ namespace Bullet {
         //    Player::Object::Create(true)->Kill();
         //}
 
-        if (this->pos.x > 570) {
+        if (this->pos.x > 700) {
+            gamestate = GameState::Non;
             this->Kill();  // ”ничтожаем врага, если он вышел за пределы экранаa
         }
     }

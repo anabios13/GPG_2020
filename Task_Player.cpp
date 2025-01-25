@@ -36,7 +36,6 @@ namespace  Player
 		this->render2D_Priority[1] = 0.5f;
 		this->pos.x = 0;
 		this->pos.y = 0;
-		//this->count = 0;
 		this->gamestate = GameState::Normal;
 		//šƒ^ƒXƒN‚Ì¶¬
 
