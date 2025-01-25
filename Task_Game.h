@@ -8,6 +8,7 @@
 #include  "Task_Player.h"
 #include  "Task_Ending.h"
 #include  "Task_Enemy.h"
+#include  "Task_Coin.h"
 namespace  Game
 {
 	//タスクに割り当てるグループ名と固有名
@@ -54,7 +55,9 @@ namespace  Game
 	public:
 		//追加したい変数・メソッドはここに追加する
 		std::vector<Enemy::Object::SP> enemies;
+		std::vector<Coin::Object::SP> coins;
 		std::vector<Enemy::Object::SP> enemiesToRemove;
 		std::vector<Bullet::Object::SP> bulletsToRemove;
+		int deb = 0;
 	};
 }

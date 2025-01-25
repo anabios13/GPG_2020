@@ -1,13 +1,13 @@
-#include "Task_Enemy.h"
+#include "Task_Coin.h"
 
 #include  "MyPG.h"
 #include "myLib.h"
-namespace Enemy {
+namespace Coin {
     Resource::WP  Resource::instance;
-    //// Инициализация ресурса (картинка врага)
+    //// Инициализация ресурса (картинка  монетки)
     bool Resource::Initialize() {
-        this->img = DG::Image::Create("./data/Image/enemy.png");
-        
+        this->img = DG::Image::Create("./data/Image/Coin.png");
+
         return true;
     }
 
@@ -79,17 +79,16 @@ namespace Enemy {
         //    Player::Object::Create(true)->Kill();
         //}
 
-        if (this->pos.x<-150) {
-            gamestate = GameState::Non;
+        if (this->pos.x <-100) {
             this->Kill();  // Уничтожаем врага, если он вышел за пределы экранаa
         }
     }
 
     // Отрисовка врага
     void Object::Render2D_AF() {
-        ML::Box2D draw(32, 32, 32, 32);  // Размеры врага
+        ML::Box2D draw(10, 10, 10, 10);  // Размеры врага
         draw.Offset(this->pos);
-        ML::Box2D src(0, 0, 32, 32);//0,0,32,32
+        ML::Box2D src(0, 0, 7, 10);//0,0,32,32
         this->res->hitBase = draw;
         // Источник изображения
         this->res->img->Draw(draw, src);

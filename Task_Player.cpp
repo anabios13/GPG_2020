@@ -3,7 +3,7 @@
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Player.h"
-
+#include <algorithm>
 namespace  Player
 {
 	Resource::WP  Resource::instance;
@@ -36,6 +36,7 @@ namespace  Player
 		this->render2D_Priority[1] = 0.5f;
 		this->pos.x = 0;
 		this->pos.y = 0;
+		//this->count = 0;
 		this->gamestate = GameState::Normal;
 		//БЪГ^ГXГNВћРґРђ
 
@@ -60,11 +61,21 @@ namespace  Player
 	{
 		if (this->controller) {
 			auto  inp = this->controller->GetState();
-			if (inp.LStick.BL.on) { this->pos.x -= 3; }
-			if (inp.LStick.BR.on) { this->pos.x += 3; }
-			if (inp.LStick.BU.on) { this->pos.y -= 3; }
-			if (inp.LStick.BD.on) { this->pos.y += 3; }
+			//ge->screen2DHeight;
+		
+			if (inp.LStick.BL.on) { this->pos.x = max(-70, this->pos.x - 3);  }
+			else if (this->pos.x <= 0) { this->pos.x +=4 ; }
+		
+			if (inp.LStick.BR.on) {//вправо
+				this->pos.x = min(ge->screenWidth-70, this->pos.x + 3);
+			}
+			if (inp.LStick.BU.on) {
+				this->pos.y = max(-30, this->pos.y - 3);
+			}
+			if (inp.LStick.BD.on) {//вниз
 
+				this->pos.y = min(ge->screenHeight-70 , this->pos.y + 3);
+			}
 			if (inp.B1.down) {//Z keyboard
 				auto  pl = Bullet::Object::Create(true);
 				pl->pos.x = this->pos.x+36;

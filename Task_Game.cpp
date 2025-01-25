@@ -5,6 +5,7 @@
 #include  "Task_Game.h"
 #include <iostream>
 #include <functional>
+#include <random>
 namespace  Game
 {
 	Resource::WP  Resource::instance;
@@ -62,16 +63,41 @@ namespace  Game
 	void  Object::UpDate()
 	{
 		auto inp = ge->in1->GetState( );
+		std::random_device rd;  // Может использоваться для получения случайного значения из аппаратного генератора
+		std::mt19937 gen(rd()); // Инициализация Mersenne Twister генератора случайных чисел
+		std::uniform_int_distribution<> ydis(0, 205);
+		std::uniform_int_distribution<> ecount(0, 3);
+		std::uniform_int_distribution<> dis(0, 40); // Случайные числа от 0 до 10 включительно
+		std::uniform_int_distribution<> dis1(0, 50);
+		
 		static int updateCounter = 0; // Ñ÷¸ò÷èê âûçîâîâ ìåòîäà Update()
-
+		//int val1=rand
 		updateCounter++; // Óâåëè÷èâàåì ñ÷¸ò÷èê
 
 		// Åñëè ïðîøëî 3 ñåêóíäû (3 âûçîâà Update)
 		if (updateCounter >= 100) {
+			
+			if (dis(gen) == dis1(gen))
+			{
+				auto co = Coin::Object::Create(true);
+				if (co) {
+					// Óñòàíàâëèâàåì ïîçèöèþ âðàãà
+					co->pos.x = 540.0f; // X-êîîðäèíàòà ôèêñèðîâàíà
+					co->pos.y = ydis(gen);
+					// Óñòàíàâëèâàåì ðàçìåðû õèòáîêñà
+					co->res->hitBase.h = 10;
+					co->res->hitBase.w = 32;
+
+					// Äîáàâëÿåì âðàãà â ìàññèâ
+					coins.push_back(co);
+				}
+			}
+			//deb++;
 			updateCounter = 0; // Ñáðàñûâàåì ñ÷¸ò÷èê
 
 			// Ãåíåðèðóåì ñëó÷àéíîå êîëè÷åñòâî âðàãîâ (îò 1 äî 3)
-			int enemyCount = 1 + std::rand() % 3;
+			int enemyCount = ecount(gen); //1 + std::rand() % 3;
+
 
 			for (int i = 0; i < enemyCount; i++) {
 				auto en = Enemy::Object::Create(true);
@@ -79,7 +105,7 @@ namespace  Game
 					// Óñòàíàâëèâàåì ïîçèöèþ âðàãà
 					en->pos.x = 540.0f; // X-êîîðäèíàòà ôèêñèðîâàíà
 					en->pos.y = std::rand() % (238 - 32); // Ñëó÷àéíàÿ ïîçèöèÿ ïî Y â ïðåäåëàõ èãðîâîãî ïîëÿ
-
+					//en->pos.y = ydis(gen);
 					// Óñòàíàâëèâàåì ðàçìåðû õèòáîêñà
 					en->res->hitBase.h = 32;
 					en->res->hitBase.w = 32;
@@ -89,58 +115,42 @@ namespace  Game
 				}
 			}
 		}
-		//ge->GetTask<Bullet::Object::SP>();
-		
-		//ge->
-		//[enemys]e
-		//generation enemy unit
-		/*for (int e = 0; e < 30; ++e) {
-			if (.state == State::Normal) {
-				if (enemys[e].moveCnt < 100) { enemys[e].x += 1; }
-				else { enemys[e].x -= 1; }
-				enemys[e].moveCnt++;
-				if (enemys[e].moveCnt >= 200) { enemys[e].moveCnt = 0; }
-			}
-			if (player.state == State::Normal) {
-				ML::Box2D me = player.hitBase.OffsetCopy(player.x, player.y);
-				if (enemys[e].state == State::Normal) {
-					ML::Box2D you = enemys[e].hitBase.OffsetCopy(enemys[e].x, enemys[e].y);
-					if (you.Hit(me) == true) {
-						player.state = State::Non;
-						enemys[e].state = State::Non;
-					}
-				}
-			}
-		}*/
+
 		ML::Box2D me = PO->res->hitBase;
 		me.x = PO->pos.x;
 		me.y = PO->pos.y;
-
 		for (auto enemy : enemies)
 		{
 			if (enemy->gamestate == Enemy::GameState::Normal) {
-			//	ML::Box2D you = enemy->res->hitBase.OffsetCopy(enemy->pos.x, enemy->pos.y);
-				//ML::Box2D you = enemy->res->hitBase.OffsetCopy(enemy->pos);
-				//you.x = enemy->pos.x;
 				ML::Box2D you = enemy->res->hitBase;
 				you.x = enemy->pos.x;
 				you.y = enemy->pos.y;
-				//you.h = enemy->res->hitBase.h;
-
 				if (you.Hit(me)) {
 					PO->gamestate = Player::GameState::Non;
 					enemy->gamestate = Enemy::GameState::Non;
 					PO->Kill();
 					enemy->Kill();
 					this->Kill();
+
 				}
 			}
 		}
+		for (auto coin : coins)
+		{
+			if (coin->gamestate == Coin::GameState::Normal) {
+				ML::Box2D you = coin->res->hitBase;
+				you.x = coin->pos.x;
+				you.y = coin->pos.y;
 
+				if (you.Hit(me)) {
+					coin->gamestate = Coin::GameState::Non;
+					coin->Kill();
+					//PO->count++;
+				}
+			}
+		}
 		std::vector<Enemy::Object::SP> enemiesToRemove;
 		std::vector<Bullet::Object::SP> bulletsToRemove;
-		//MessageBox(nullptr, std::to_string(PO->pos.x).data(), nullptr, MB_OK);
-		//std::for_each(PO->shots.cbegin(),PO->shots.cend(),[](Bullet){})
 		for(auto& enemy : enemies)
 		{
 			ML::Box2D me = enemy->res->hitBase;
@@ -151,15 +161,14 @@ namespace  Game
 				ML::Box2D you = bullet->res->hitBase;
 				you.x= bullet->pos.x;
 				you.y = bullet->pos.y;
-				if (me.Hit(you)) {
+				if (me.Hit(you)&& enemy->gamestate== Enemy::GameState::Normal) {
 					bullet->gamestate = Bullet::GameState::Non;
 					enemy->gamestate = Enemy::GameState::Non;
 					bullet->Kill();
-					//PO->shots.erase(std::find(PO->shots.begin(), PO->shots.end(), bullet));
 					enemy->Kill();
-					//enemies.erase(std::find(enemies.begin(), enemies.end(), enemy)););
 					bulletsToRemove.push_back(bullet);
 					enemiesToRemove.push_back(enemy);
+					//PO->count++;
 
 				}
 			}
@@ -185,42 +194,16 @@ namespace  Game
 		);
 
 
-
-		/*for (size_t i = 0; i <; i++)
-		{
-
-		}*/
-		/*for (size_t i = 0; i < PO->shots.size(); i++)
-		{
-			ML::Box2D shot = PO->shots[i]->res->hitBase.OffsetCopy(PO->shots[i]->pos.x, PO->shots[i]->pos.y);
-			if (EO->gamestate == Enemy::GameState::Normal) {
-				ML::Box2D you = EO->res->hitBase.OffsetCopy(EO->pos.x, EO->pos.y);
-				if (you.Hit(shot)) {
-					EO->gamestate = Enemy::GameState::Non;
-					PO->shots[i]->gamestate = Bullet::GameState::Non;
-					PO->shots[i]->Kill();
-					EO->Kill();
-
-				}
-			}
-		}*/
-		/*ML::Box2D bull = PO->shot->res->hitBase.OffsetCopy(PO->pos.x, PO->pos.y);
-		if (EO->gamestate == Enemy::GameState::Normal) {
-			ML::Box2D you = EO->res->hitBase.OffsetCopy(EO->pos.x, EO->pos.y);
-			if (you.Hit(bull)) {
-				//PO->gamestate = Player::GameState::Non;
-				EO->gamestate = Enemy::GameState::Non;
-				//PO->Kill();
-				EO->Kill();
-				this->Kill();
-			}
-		}*/
-		if (PO->gamestate == Player::GameState::Non) {
-			enemies.clear();
+		if (PO->gamestate == Player::GameState::Non) {			
 			ge->KillAll_G("Enemy");
+			ge->KillAll_G("Bullet");
+			ge->KillAll_G("Coin");
+			this->Kill();
 		}
 		if (inp.ST.down) {
 			ge->KillAll_G("Enemy");
+			ge->KillAll_G("Bullet");
+			ge->KillAll_G("Coin");
 			this->Kill();
 		}
 		
