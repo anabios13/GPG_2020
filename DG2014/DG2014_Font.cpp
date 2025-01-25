@@ -23,7 +23,7 @@ namespace DG
 			0, charSet_, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
 			DEFAULT_PITCH | FF_DONTCARE
 		};
-		strcpy_s(desc.FaceName,  32,  fname_.c_str( ));
+		strcpy_s(desc.FaceName, 32,  fname_.c_str( ));
 
 		HRESULT  hr;
 		hr  =  D3DX10CreateFontIndirect(&dgi->Device( ),  &desc,  &font);

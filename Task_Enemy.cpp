@@ -71,13 +71,6 @@ namespace Enemy {
     void Object::UpDate() {
         this->pos.x -= this->speed;  // Двигается вправо
 
-        //// Проверка столкновения с игроком
-        //ML::Collsion::
-        //if (ML::Collision::CheckRect(this->pos, 32, 32, Player::Object::Create(true)->pos, 32, 32)) {
-        //    // Столкновение с игроком, уничтожаем оба объекта
-        //    this->Kill();
-        //    Player::Object::Create(true)->Kill();
-        //}
 
         if (this->pos.x<-150) {
             gamestate = GameState::Non;

@@ -13,6 +13,12 @@ namespace  Game
 	//ѓЉѓ\Ѓ[ѓX‚МЏ‰Љъ‰»
 	bool  Resource::Initialize()
 	{
+		 this->font = DG::Font::Create("PixelifySans", 16, 16, 400U, ANSI_CHARSET); // 32 - размер шрифта
+		 if (!this->font) {
+			 std::cerr << "Ошибка: не удалось создать шрифт PixelifySans!" << std::endl;
+		 }
+
+
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -166,10 +172,13 @@ namespace  Game
 					enemy->gamestate = Enemy::GameState::Non;
 					bullet->Kill();
 					enemy->Kill();
+					if (bullet != previousBullet) {
+						score++;             
+						previousBullet = bullet;
+					}
+					//enemies.erase(std::find(enemies.begin(), enemies.end(), enemy)););
 					bulletsToRemove.push_back(bullet);
 					enemiesToRemove.push_back(enemy);
-					//PO->count++;
-
 				}
 			}
 		}
@@ -194,7 +203,8 @@ namespace  Game
 		);
 
 
-		if (PO->gamestate == Player::GameState::Non) {			
+		if (PO->gamestate == Player::GameState::Non) {
+			enemies.clear();
 			ge->KillAll_G("Enemy");
 			ge->KillAll_G("Bullet");
 			ge->KillAll_G("Coin");
@@ -222,8 +232,17 @@ namespace  Game
 	}
 	//-------------------------------------------------------------------
 	//Ѓu‚Q‚c•`‰жЃv‚PѓtѓЊЃ[ѓЂ–€‚ЙЌs‚¤Џ€—ќ
-	void  Object::Render2D_AF()
-	{
+	void Object::Render2D_AF() {
+		if (!res || !res->font) return; // Проверяем, что шрифт загружен
+
+		// Пример строки текста
+		std::string text = std::to_string(score);
+
+		ML::Box2D textBox(ge->screen2DWidth - 100, 10, 200, 16); // Позиция текста (x, y, ширина, высота)
+		ML::Color color(1, 1, 1, 1); // Белый цвет (RGBA)
+
+		// Вывод текста
+		res->font->Draw(textBox, text, color);
 	}
 
 	//ЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљЃљ
