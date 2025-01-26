@@ -49,7 +49,8 @@ namespace Coin {
 		//bool  B_Initialize(); // νε νσζεν
 		//bool  B_Finalize(); // νε νσζεν
 		bool  Initialize();	//u‰ϊ‰»vƒ^ƒXƒN¶¬‚Ι‚P‰ρ‚Ύ‚―s‚¤—
-		void  UpDate()			override;	//uΐsv‚Pƒtƒ[ƒ€–‚Ιs‚¤—
+		void  UpDate()			override;
+		//void updateCoinTexture(int counter);//uΐsv‚Pƒtƒ[ƒ€–‚Ιs‚¤—
 		void  Render2D_AF()		override;	//u2D•`‰ζv‚Pƒtƒ[ƒ€–‚Ιs‚¤—
 		bool  Finalize();	//uI—Ήvƒ^ƒXƒNΑ–Ε‚Ι‚P‰ρ‚Ύ‚―s‚¤—
 		//•ΟX‰Β

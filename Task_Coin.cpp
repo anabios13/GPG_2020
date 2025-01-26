@@ -63,6 +63,7 @@ namespace Coin {
     bool Object::Finalize() {
         return true;
     }
+    
 
     Object::~Object() { this->Finalize(); }
 
@@ -72,16 +73,24 @@ namespace Coin {
         static int updateCounter = 0; // Ñ÷¸ò÷èê âûçîâîâ ìåòîäà Update()
         //int val1=rand
         updateCounter++; // Óâåëè÷èâàåì ñ÷¸ò÷èê
-        if (updateCounter >= 50) {
-                if (buffer < 4) 
-                    buffer++;
-                else
-                    buffer = 1;
-            this->res->img->ReLoad("./data/Image/" + to_string(buffer) + ".png");
-            updateCounter = 0;
-        }
+       
         if (this->pos.x <-100) {
             this->Kill();  // Уничтожаем врага, если он вышел за пределы экранаa
+        }
+        if (updateCounter >= 70) {
+            if (buffer != 4) {
+                this->res->img->ReLoad("./data/Image/" + to_string(buffer) + ".png");
+                buffer++;
+                updateCounter = 0;
+                return;
+            }
+            if (buffer == 4) {
+                this->res->img->ReLoad("./data/Image/" + to_string(buffer) + ".png");
+                buffer = 1;
+                updateCounter = 0;
+                return;
+
+            }
         }
     }
 
