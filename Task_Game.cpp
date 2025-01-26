@@ -13,11 +13,33 @@ namespace  Game
 	//ѓЉѓ\Ѓ[ѓX‚МЏ‰Љъ‰»
 	bool  Resource::Initialize()
 	{
+		
 		 this->font = DG::Font::Create("PixelifySans", 16, 16, 400U, ANSI_CHARSET); // 32 - размер шрифта
 		 if (!this->font) {
 			 std::cerr << "Ошибка: не удалось создать шрифт PixelifySans!" << std::endl;
 		 }
 
+		 // Загрузка звукового эффекта
+		 this->soundEffect = DM::Sound::CreateSE("./data/sounds/explosion.wav");
+		 if (!soundEffect) {
+			 std::cerr << "Ошибка: не удалось загрузить звуковой файл!" << std::endl;
+			 return -1;
+		 }
+
+		 // Загрузка звукового эффекта
+		 this->soundCoin = DM::Sound::CreateSE("./data/sounds/coin.wav");
+		 if (!soundCoin) {
+			 std::cerr << "Ошибка: не удалось загрузить звуковой файл!" << std::endl;
+			 return -1;
+		 }
+
+		 // Загрузка звукового эффекта
+		 this->soundBackground = DM::Sound::CreateSE("./data/sounds/music.wav");
+		 if (!soundEffect) {
+			 std::cerr << "Ошибка: не удалось загрузить звуковой файл!" << std::endl;
+			 return -1;
+		 }
+		 
 
 		return true;
 	}
@@ -31,6 +53,7 @@ namespace  Game
 	//ЃuЏ‰Љъ‰»Ѓvѓ^ѓXѓNђ¶ђ¬Ћћ‚Й‚P‰с‚ѕ‚ЇЌs‚¤Џ€—ќ
 	bool  Object::Initialize()
 	{
+		
 		//ѓXЃ[ѓpЃ[ѓNѓ‰ѓXЏ‰Љъ‰»
 		__super::Initialize(defGroupName, defName, true);
 		//ѓЉѓ\Ѓ[ѓXѓNѓ‰ѓXђ¶ђ¬orѓЉѓ\Ѓ[ѓX‹¤—L
@@ -47,6 +70,7 @@ namespace  Game
 		BG= GameBG::Object::Create(true);
 		PO= Player::Object::Create(true);
 		//EO = Enemy::Object::Create(true);
+		this->res->soundBackground->Play_Normal(true);
 		return  true;
 	}
 	//-------------------------------------------------------------------
@@ -69,13 +93,15 @@ namespace  Game
 	//ЃuЌXђVЃv‚PѓtѓЊЃ[ѓЂ–€‚ЙЌs‚¤Џ€—ќ
 	void  Object::UpDate()
 	{
+		
+		
 		auto inp = ge->in1->GetState( );
 		std::random_device rd;  // Может использоваться для получения случайного значения из аппаратного генератора
 		std::mt19937 gen(rd()); // Инициализация Mersenne Twister генератора случайных чисел
 		std::uniform_int_distribution<> ydis(0, 205);
 		std::uniform_int_distribution<> ecount(0, 3);
-		std::uniform_int_distribution<> dis(0, 40); // Случайные числа от 0 до 10 включительно
-		std::uniform_int_distribution<> dis1(0, 50);
+		std::uniform_int_distribution<> dis(0, 2); // Случайные числа от 0 до 10 включительно
+		std::uniform_int_distribution<> dis1(0, 5);
 		std::vector<Enemy::Object::SP> enemiesToRemove;
 		std::vector<Bullet::Object::SP> bulletsToRemove;
 		std::vector<Coin::Object::SP> coinsToRemove;
@@ -84,7 +110,8 @@ namespace  Game
 		updateCounter++; // Óâåëè÷èâàåì ñ÷¸ò÷èê
 
 		// Åñëè ïðîøëî 3 ñåêóíäû (3 âûçîâà Update)
-		if (updateCounter >= 100) {
+		if (updateCounter >= 100) 
+{
 			
 			if (dis(gen) == dis1(gen))
 			{
@@ -157,7 +184,8 @@ namespace  Game
 					coin->gamestate = Coin::GameState::Non;
 					coin->Kill();
 					coinsToRemove.push_back(coin);
-					score++;
+					score+=50;
+					this->res->soundCoin->Play_Normal(false);
 				}
 			}
 		}
@@ -181,7 +209,8 @@ namespace  Game
 					bullet->Kill();
 					enemy->Kill();
 					if (bullet != previousBullet) {
-						score++;             
+						score++;  
+						this->res->soundEffect->Play_Normal(false);
 						previousBullet = bullet;
 					}
 					//enemies.erase(std::find(enemies.begin(), enemies.end(), enemy)););
@@ -250,9 +279,9 @@ namespace  Game
 		if (!res || !res->font) return; // Проверяем, что шрифт загружен
 
 		// Пример строки текста
-		std::string text = std::to_string(score);
-
-		ML::Box2D textBox(ge->screen2DWidth - 100, 10, 200, 16); // Позиция текста (x, y, ширина, высота)
+		std::string text = "score ";
+		text += std::to_string(score);
+		ML::Box2D textBox(ge->screen2DWidth - 150, 10, 200, 16); // Позиция текста (x, y, ширина, высота)
 		ML::Color color(1, 1, 1, 1); // Белый цвет (RGBA)
 
 		// Вывод текста

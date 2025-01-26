@@ -30,6 +30,9 @@ namespace  Game
 		static  Resource::SP  Create();
 		//‹¤—L‚·‚é•Ï”‚Í‚±‚±‚É’Ç‰Á‚·‚é
 		DG::Font::SP	font;
+		DM::Sound::SP  soundEffect;
+		DM::Sound::SP  soundCoin;
+		DM::Sound::SP  soundBackground;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask

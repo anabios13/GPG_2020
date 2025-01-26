@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngine_Ver3_83.h"
+#include "windows.h"
 #include <fstream>
 #include <sstream>
 

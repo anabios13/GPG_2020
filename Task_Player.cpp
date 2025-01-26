@@ -66,7 +66,7 @@ namespace  Player
 			else if (this->pos.x <= 0) { this->pos.x +=4 ; }
 		
 			if (inp.LStick.BR.on) {//糀粽
-				this->pos.x = min(ge->screenWidth-70, this->pos.x + 3);
+				this->pos.x = min((int)(ge->screenWidth-70), this->pos.x + 3);
 			}
 			if (inp.LStick.BU.on) {
 				v= max(-30, this->pos.y - 3);
@@ -82,7 +82,6 @@ namespace  Player
 				shots.push_back(pl);
 			}
 		}
-
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理

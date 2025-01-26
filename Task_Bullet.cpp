@@ -7,7 +7,6 @@ namespace Bullet {
     //// Инициализация ресурса (картинка врага)
     bool Resource::Initialize() {
         this->img = DG::Image::Create("./data/Image/shot.png");
-
         return true;
     }
 
