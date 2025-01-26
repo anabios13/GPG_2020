@@ -100,8 +100,8 @@ namespace  Game
 		std::mt19937 gen(rd()); // Инициализация Mersenne Twister генератора случайных чисел
 		std::uniform_int_distribution<> ydis(0, 205);
 		std::uniform_int_distribution<> ecount(0, 3);
-		std::uniform_int_distribution<> dis(0, 1); // Случайные числа от 0 до 10 включительно
-		std::uniform_int_distribution<> dis1(0, 1);
+		std::uniform_int_distribution<> dis(0, 2); // Случайные числа от 0 до 10 включительно
+		std::uniform_int_distribution<> dis1(0, 5);
 		std::vector<Enemy::Object::SP> enemiesToRemove;
 		std::vector<Bullet::Object::SP> bulletsToRemove;
 		std::vector<Coin::Object::SP> coinsToRemove;
@@ -177,14 +177,16 @@ namespace  Game
 		{
 			if (coin->gamestate == Coin::GameState::Normal) {
 				ML::Box2D you = coin->res->hitBase;
-				you.x = coin->pos.x;
-				you.y = coin->pos.y;
+				you.x = coin->pos.x - 10;
+				you.y = coin->pos.y - 16;
+				you.h = 32;
+				you.w = 32;
 
 				if (you.Hit(me)) {
 					coin->gamestate = Coin::GameState::Non;
 					coin->Kill();
 					coinsToRemove.push_back(coin);
-					score+=50;
+					score += 5;
 					this->res->soundCoin->Play_Normal(false);
 				}
 			}
