@@ -38,8 +38,12 @@ namespace Coin {
 		////¶¬‘‹Œû ˆø”‚Ítrue‚Åƒ^ƒXƒNƒVƒXƒeƒ€‚Ö©“®“o˜^
 		static  Object::SP  Create(bool flagGameEnginePushBack_);
 		Resource::SP	res;
-
+		int buffer = 1;
+		ML::Box2D get_src();
 		GameState gamestate;
+		ML::Box2D draw;
+		ML::Box2D src;
+
 	private:
 		Object() = default;
 		//bool  B_Initialize(); // íå íóæåí
@@ -48,7 +52,6 @@ namespace Coin {
 		void  UpDate()			override;	//uÀsv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 		void  Render2D_AF()		override;	//u2D•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 		bool  Finalize();	//uI—¹vƒ^ƒXƒNÁ–Å‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
-
 		//•ÏX‰Â
 	};
 }

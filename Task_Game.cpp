@@ -100,8 +100,8 @@ namespace  Game
 		std::mt19937 gen(rd()); // Инициализация Mersenne Twister генератора случайных чисел
 		std::uniform_int_distribution<> ydis(0, 205);
 		std::uniform_int_distribution<> ecount(0, 3);
-		std::uniform_int_distribution<> dis(0, 2); // Случайные числа от 0 до 10 включительно
-		std::uniform_int_distribution<> dis1(0, 5);
+		std::uniform_int_distribution<> dis(0, 1); // Случайные числа от 0 до 10 включительно
+		std::uniform_int_distribution<> dis1(0, 1);
 		std::vector<Enemy::Object::SP> enemiesToRemove;
 		std::vector<Bullet::Object::SP> bulletsToRemove;
 		std::vector<Coin::Object::SP> coinsToRemove;

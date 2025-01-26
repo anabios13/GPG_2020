@@ -1,13 +1,12 @@
-#include "Task_Coin.h"
+ï»¿#include "Task_Coin.h"
 
 #include  "MyPG.h"
 #include "myLib.h"
 namespace Coin {
     Resource::WP  Resource::instance;
-    //// Èíèöèàëèçàöèÿ ðåñóðñà (êàðòèíêà  ìîíåòêè)
+    //// Ð˜Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ñ€ÐµÑÑƒÑ€ÑÐ° (ÐºÐ°Ñ€Ñ‚Ð¸Ð½ÐºÐ°  Ð¼Ð¾Ð½ÐµÑ‚ÐºÐ¸)
     bool Resource::Initialize() {
-        this->img = DG::Image::Create("./data/Image/Coin.png");
-
+        this->img = DG::Image::Create("./data/Image/coin_yellow.png");
         return true;
     }
 
@@ -31,66 +30,71 @@ namespace Coin {
         }
     }
 
-    // Ñîçäàíèå âðàãà
+    // Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð²Ñ€Ð°Ð³Ð°
     Object::SP Object::Create(bool flagGameEnginePushBack_) {
         Object::SP ob = Object::SP(new  Object());
         if (ob) {
             if (flagGameEnginePushBack_) {
-                ge->PushBack(ob);  // Äîáàâëÿåì â èãðîâîé ïðîöåññ
+                ge->PushBack(ob);  // Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ Ð² Ð¸Ð³Ñ€Ð¾Ð²Ð¾Ð¹ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ
             }
             if (!ob->Initialize()) {
-                ob->Kill();  // Óíè÷òîæàåì, åñëè èíèöèàëèçàöèÿ íå óäàëàñü
+                ob->Kill();  // Ð£Ð½Ð¸Ñ‡Ñ‚Ð¾Ð¶Ð°ÐµÐ¼, ÐµÑÐ»Ð¸ Ð¸Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð½Ðµ ÑƒÐ´Ð°Ð»Ð°ÑÑŒ
             }
             return ob;
         }
         return nullptr;
     }
 
-    // Èíèöèàëèçàöèÿ âðàãà
+    // Ð˜Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð²Ñ€Ð°Ð³Ð°
     bool Object::Initialize() {
         __super::Initialize(defGroupName, defName, true);
 
         std::srand(std::time(nullptr));
         this->res = Resource::Create();
-        this->pos.x = 150;  // Âðàã ïîÿâëÿåòñÿ ñ ïðàâîé ñòîðîíû ýêðàíà
-        this->pos.y = (std::rand() % (270 - 32 + 1));  // Ñëó÷àéíàÿ âûñîòà
+        this->pos.x = 150;  // Ð’Ñ€Ð°Ð³ Ð¿Ð¾ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ñ Ð¿Ñ€Ð°Ð²Ð¾Ð¹ ÑÑ‚Ð¾Ñ€Ð¾Ð½Ñ‹ ÑÐºÑ€Ð°Ð½Ð°
+        this->pos.y = (std::rand() % (270 - 32 + 1));  // Ð¡Ð»ÑƒÑ‡Ð°Ð¹Ð½Ð°Ñ Ð²Ñ‹ÑÐ¾Ñ‚Ð°
         this->speed = 1.0f;//1.0f
         this->render2D_Priority[1] = 0.5f;
         this->gamestate = GameState::Normal;
         return true;
     }
 
-    // Çàâåðøåíèå ðàáîòû îáúåêòà (âðàãà)
+    // Ð—Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð¸Ðµ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ð¾Ð±ÑŠÐµÐºÑ‚Ð° (Ð²Ñ€Ð°Ð³Ð°)
     bool Object::Finalize() {
         return true;
     }
 
     Object::~Object() { this->Finalize(); }
 
-    //// Îáíîâëåíèå ïîçèöèè âðàãà
+    //// ÐžÐ±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¸ Ð²Ñ€Ð°Ð³Ð°
     void Object::UpDate() {
-        this->pos.x -= this->speed;  // Äâèãàåòñÿ âïðàâî
-
-        //// Ïðîâåðêà ñòîëêíîâåíèÿ ñ èãðîêîì
-        //ML::Collsion::
-        //if (ML::Collision::CheckRect(this->pos, 32, 32, Player::Object::Create(true)->pos, 32, 32)) {
-        //    // Ñòîëêíîâåíèå ñ èãðîêîì, óíè÷òîæàåì îáà îáúåêòà
-        //    this->Kill();
-        //    Player::Object::Create(true)->Kill();
-        //}
-
+        this->pos.x -= this->speed;  // Ð”Ð²Ð¸Ð³Ð°ÐµÑ‚ÑÑ Ð²Ð¿Ñ€Ð°Ð²Ð¾
+        static int updateCounter = 0; // Ã‘Ã·Â¸Ã²Ã·Ã¨Ãª Ã¢Ã»Ã§Ã®Ã¢Ã®Ã¢ Ã¬Ã¥Ã²Ã®Ã¤Ã  Update()
+        //int val1=rand
+        updateCounter++; // Ã“Ã¢Ã¥Ã«Ã¨Ã·Ã¨Ã¢Ã Ã¥Ã¬ Ã±Ã·Â¸Ã²Ã·Ã¨Ãª
+        if (updateCounter >= 50) {
+                if (buffer < 4) 
+                    buffer++;
+                else
+                    buffer = 1;
+            this->res->img->ReLoad("./data/Image/" + to_string(buffer) + ".png");
+            updateCounter = 0;
+        }
         if (this->pos.x <-100) {
-            this->Kill();  // Óíè÷òîæàåì âðàãà, åñëè îí âûøåë çà ïðåäåëû ýêðàíàa
+            this->Kill();  // Ð£Ð½Ð¸Ñ‡Ñ‚Ð¾Ð¶Ð°ÐµÐ¼ Ð²Ñ€Ð°Ð³Ð°, ÐµÑÐ»Ð¸ Ð¾Ð½ Ð²Ñ‹ÑˆÐµÐ» Ð·Ð° Ð¿Ñ€ÐµÐ´ÐµÐ»Ñ‹ ÑÐºÑ€Ð°Ð½Ð°a
         }
     }
 
-    // Îòðèñîâêà âðàãà
+    // ÐžÑ‚Ñ€Ð¸ÑÐ¾Ð²ÐºÐ° Ð²Ñ€Ð°Ð³Ð°
     void Object::Render2D_AF() {
-        ML::Box2D draw(10, 10, 10, 10);  // Ðàçìåðû âðàãà
+       
+        ML::Box2D draw(0, 0, 32, 32);  // Ð Ð°Ð·Ð¼ÐµÑ€Ñ‹ Ð²Ñ€Ð°Ð³Ð°
+/*        draw = get_src();*/  // Ð Ð°Ð·Ð¼ÐµÑ€Ñ‹ Ð²Ñ€Ð°Ð³Ð°
         draw.Offset(this->pos);
-        ML::Box2D src(0, 0, 7, 10);//0,0,32,32
+        src  = ML::Box2D(0, 0, 16, 16);//0,0,32,32
+        /*ML::Box2D src = get_src();*/
         this->res->hitBase = draw;
-        // Èñòî÷íèê èçîáðàæåíèÿ
+        // Ð˜ÑÑ‚Ð¾Ñ‡Ð½Ð¸Ðº Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ
         this->res->img->Draw(draw, src);
     }
 }
