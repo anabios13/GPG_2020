@@ -25,7 +25,6 @@
        alt="GPG_2020 gameplay placeholder"
        style="max-width: 980px; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.22);" />
   <div style="font-size: 12px; color: #6a737d; margin-top: 8px;">
-    Иллюстрация игрового процесса (плейсхолдер — замените на реальный скрин)
   </div>
 </div>
 
